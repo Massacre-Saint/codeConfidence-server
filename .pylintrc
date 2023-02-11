@@ -1,0 +1,3 @@
+[FORMAT] \n  good-names=i,j,ex,pk\n\n[MESSAGES CONTROL]\n  disable=broad-except,imported-auth-user,missing-class-docstring,no-self-use,abstract-method\n\n[MASTER]\n  disable=C0114,\n
+# Good variable names which should always be accepted, separated by a comma
+good-names=i,j,k,ex,Run,_,pk,x,y,id
