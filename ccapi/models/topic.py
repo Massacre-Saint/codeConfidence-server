@@ -2,7 +2,6 @@
 import uuid
 from django.db import models
 from .user import User
-from .tech import Tech
 from .learned_tech import LearnedTech
 from .goal import Goal
 
@@ -13,6 +12,6 @@ class Topic(models.Model):
     description = models.CharField(max_length=150)
     uid = models.ForeignKey(User, on_delete= models.RESTRICT)
     learned_tech = models.ForeignKey(LearnedTech, on_delete= models.PROTECT)
-    goal = models.ForeignKey(Goal, null=True)
+    goal = models.ForeignKey(Goal, on_delete=models.RESTRICT, null=True)
     last_updated = models.DateTimeField(auto_now=True)
     completed = models.BooleanField(default=False)

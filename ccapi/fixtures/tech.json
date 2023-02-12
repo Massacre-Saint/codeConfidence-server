@@ -1,0 +1,152 @@
+[
+  {
+    "model":"ccapi.tech",
+    "pk": 1,
+    "fields": {
+      "name": ".NET",
+      "description": ".NET is a free, cross-platform, open source developer platform for building many different types of applications. With .NET, you can use multiple languages, editors, and libraries to build for web, mobile, desktop, games, IoT, and more.",
+      "doc_url": "https://learn.microsoft.com/en-us/dotnet/",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/212a6171c385743a5bcce0a56959c33c/raw/7c9660ecead96cfcc85cb57b1acde47a651fe90c/.net.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 2,
+    "fields": {
+      "name": "C",
+      "description": "The C programming language is a procedural and general-purpose language that provides low-level access to system memory. A program written in C must be run through a C compiler to convert it into an executable that a computer can run.",
+      "doc_url": "https://devdocs.io/c/",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/677cd5613f769cd64b518e6f1cca6386/raw/349c7f26a162248dde6f6a01ff8c479f761adb62/c.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 3,
+    "fields": {
+      "name": "C++",
+      "description": "C++ is an object-oriented programming (OOP) language that is viewed by many as the best language for creating large-scale.",
+      "doc_url": "https://en.cppreference.com/w/cpp",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/20ebab0457c70c6ea6b1a4aadf81b94e/raw/64182e80de778ef63822a1343d81a93cccde9665/c++.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 4,
+    "fields": {
+      "name": "C#",
+      "description": "C# is a modern, object-oriented, and type-safe programming language. C# enables developers to build many types of secure and robust applications that run in . NET. C# has its roots in the C family of languages and will be immediately familiar to C, C++, Java, and JavaScript programmers.",
+      "doc_url": "https://learn.microsoft.com/en-us/dotnet/csharp/",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/dcf691b2ed3bc89dfe3452d4e5c68e1c/raw/6ea21272646e222cf111008ef28340a3471e1e52/c%23.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 5,
+    "fields": {
+      "name": "CSS",
+      "description": "CSS stands for Cascading Style Sheets. CSS describes how HTML elements are to be displayed on screen, paper, or in other media. CSS saves a lot of work. It can control the layout of multiple web pages all at once.External stylesheets are stored in CSS files",
+      "doc_url": "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/6de6d312b0cfe0b01f9ab722b50ddb42/raw/6abfd7cf5ee8a61ea6a20e76bf7001611300a4c9/css.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 6,
+    "fields": {
+      "name": "Django",
+      "description": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.",
+      "doc_url": "https://docs.djangoproject.com/en/4.1/",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/283a46264e54c0c51f568869baa158b8/raw/8aa8c57a19906e3434a3352b8013fb6a684174b9/django.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 7,
+    "fields": {
+      "name": "HTML",
+      "description": "HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content.",
+      "doc_url": "https://developer.mozilla.org/en-US/docs/Web/HTML",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/9066a1c7fc2eb7d5dc1997c1896f77dc/raw/dd69894d68651fa0a1107bc1cd89a25f867eb781/html.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 8,
+    "fields": {
+      "name": "Java",
+      "description": "Java is a widely-used programming language for coding web applications. It has been a popular choice among developers for over two decades, with millions of Java applications in use today. Java is a multi-platform, object-oriented, and network-centric language that can be used as a platform in itself. It is a fast, secure, reliable programming language for coding everything from mobile apps and enterprise software to big data applications and server-side technologies.",
+      "doc_url": "https://docs.oracle.com/javase/tutorial/index.html",
+      "image_url": "https://gist.githubusercontent.com/Massacre-Saint/10921435eae2ce96b9c30ff949c159aa/raw/bc31477704718b1ac549f4761ebee6e0d6df83db/java.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 9,
+    "fields": {
+      "name": "JavaScript",
+      "description": "JavaScript is a lightweight programming language that web developers commonly use to create more dynamic interactions when developing web pages, applications, servers, and or even games.",
+      "doc_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/js.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 10,
+    "fields": {
+      "name": "Next.js",
+      "description": "Next.js is a flexible React framework that gives you building blocks to create fast web applications.",
+      "doc_url": "https://nextjs.org/docs/getting-started",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/next.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 11,
+    "fields": {
+      "name": "Python",
+      "description": "Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.",
+      "doc_url": "https://docs.python.org/3/tutorial/index.html",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/python.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 12,
+    "fields": {
+      "name": "Ruby",
+      "description": "A dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.",
+      "doc_url": "https://www.ruby-lang.org/en/documentation/",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/ruby.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 13,
+    "fields": {
+      "name": "Ruby on Rails",
+      "description": "Ruby on Rails is a server-side framework (gem) built on the Ruby language to make websites. It includes everything you need to build web applications and has a big community.",
+      "doc_url": "https://guides.rubyonrails.org/",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/rubyrails.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 14,
+    "fields": {
+      "name": "SQL",
+      "description": "SQL is a standard language for storing, manipulating and retrieving data in databases.",
+      "doc_url": "https://www.w3schools.com/sql/default.asp",
+      "image_url": "https://gistcdn.githack.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/sql.svg"
+    }
+  },
+  {
+    "model": "ccapi.tech",
+    "pk": 15,
+    "fields": {
+      "name": "SQLite",
+      "description": "SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. The code for SQLite is in the public domain and is thus free for use for any purpose, commercial or private. SQLite is the most widely deployed database in the world with more applications than we can count, including several high-profile projects.",
+      "doc_url": "https://www.sqlite.org/docs.html",
+      "image_url": "https://gist.githubusercontent.com/Massacre-Saint/4b7983fd4c7ee8f742c60bc9a6ad2c3f/raw/09590572b9cd0d718656f7df40c52c6d3007a066/sqlite.svg"
+    }
+  }
+]
