@@ -1,0 +1,34 @@
+[
+  {
+    "model":"ccapi.message",
+    "pk": 1,
+    "fields": {
+      "title": "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+      "author": "Mahatma Gandhi"
+    }
+  },
+  {
+    "model":"ccapi.message",
+    "pk": 2,
+    "fields": {
+      "title": "Develop a passion for learning. If you do, you will never cease to grow.",
+      "author": "Anthony J. D’Angelo"
+    }
+  },
+  {
+    "model":"ccapi.message",
+    "pk": 3,
+    "fields": {
+      "title": "Programming isn't about what you know; it's about what you can figure out.",
+      "author": "Chris Pine"
+    }
+  },
+  {
+    "model":"ccapi.message",
+    "pk": 4,
+    "fields": {
+      "title": "Testing leads to failure, and failure leads to understanding.",
+      "author": "Burt Rutan"
+    }
+  }
+]
