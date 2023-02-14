@@ -23,19 +23,44 @@ class GoalView(ViewSet):
         """Get method lists all Goal instances
         Headers:
             Authorization of user['uid']
+        Params:
+          'learned_tech' : id
         """
         uid = request.META['HTTP_AUTHORIZATION']
         goals = Goal.objects.all()
-        goals_by_tech = request.query_params.get('learned_tech')
+        l_tech_param = request.query_params.get('learned_tech')
 
-        if goals_by_tech is not None:
-
-            last_updated_goal = goals.filter(uid__uid = uid).order_by('-last_updated', 'progress')
-            serializer = GoalSerializer(last_updated_goal, many=True)
+        if l_tech_param is not None:
+            goals_by_param = goals.filter(learned_tech = l_tech_param, uid__uid = uid)
+            ordered_goals = goals_by_param.order_by('-last_updated', 'progress')
+            serializer = GoalSerializer(ordered_goals, many=True)
 
         else:
+            try:
+                serializer = GoalSerializer(goals, many=True)
 
-            return Response({})
+                return Response(serializer.data)
+
+            except Goal.DoesNotExist:
+
+                return Response({})
+
+        return Response(serializer.data)
+
+    def create(self, request):
+        """Docstring"""
+        body = request.data
+        uid = request.META['HTTP_AUTHORIZATION']
+        user = User.objects.get(uid=uid)
+        l_tech = LearnedTech.objects.get(pk=body['learned_tech'])
+
+        goal = Goal.objects.create(
+          title = body['title'],
+          learned_tech = l_tech,
+          uid = user,
+          last_updated = date.today(),
+        )
+        serializer = GoalSerializer(goal)
 
         return Response(serializer.data)
 
