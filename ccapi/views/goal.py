@@ -3,7 +3,7 @@ from datetime import date
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from ccapi.models import User, LearnedTech, Goal
+from ccapi.models import User, LearnedTech, Goal, Topic
 
 class GoalView(ViewSet):
     """Class creates viewset for Goal"""
@@ -28,7 +28,7 @@ class GoalView(ViewSet):
         """
         uid = request.META['HTTP_AUTHORIZATION']
         goals = Goal.objects.all()
-        l_tech_param = request.query_params.get('learned_tech')
+        l_tech_param = request.query_params.get('l_tech')
 
         if l_tech_param is not None:
             goals_by_param = goals.filter(learned_tech = l_tech_param, uid__uid = uid)
@@ -48,13 +48,15 @@ class GoalView(ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        """Docstring"""
+        """Post method created an instance of Goal
+        Headers:
+            Authorization of user['uid']
+        """
         body = request.data
         uid = request.META['HTTP_AUTHORIZATION']
         user = User.objects.get(uid=uid)
         l_tech = LearnedTech.objects.get(pk=body['learned_tech'])
-        #section will focus on progress function
-        
+
         goal = Goal.objects.create(
           title = body['title'],
           learned_tech = l_tech,
@@ -64,6 +66,28 @@ class GoalView(ViewSet):
         serializer = GoalSerializer(goal)
 
         return Response(serializer.data)
+
+    def update(self, request, pk):
+        """Put methods updates instance Goal"""
+        body=request.data
+        goal=Goal.objects.get(pk=pk)
+        l_tech = LearnedTech.objects.get(pk=body['learned_tech'])
+
+        goal.title = body['title']
+        goal.last_updated = date.today()
+        goal.learned_tech = l_tech
+
+        #logic for progress field
+        topics = Topic.objects.filter(goal = goal.pk).count()
+        if topics > 0:
+            completed_topics = Topic.objects.filter(completed=True, goal = goal.pk).count()
+            progress = completed_topics / topics * 100
+            goal.progress = progress
+        else:
+            goal.progress = None
+        goal.save()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self,request,pk):
         """Delete method deletes the instance of 
