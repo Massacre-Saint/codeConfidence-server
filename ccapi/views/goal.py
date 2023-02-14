@@ -53,7 +53,8 @@ class GoalView(ViewSet):
         uid = request.META['HTTP_AUTHORIZATION']
         user = User.objects.get(uid=uid)
         l_tech = LearnedTech.objects.get(pk=body['learned_tech'])
-
+        #section will focus on progress function
+        
         goal = Goal.objects.create(
           title = body['title'],
           learned_tech = l_tech,
@@ -63,6 +64,14 @@ class GoalView(ViewSet):
         serializer = GoalSerializer(goal)
 
         return Response(serializer.data)
+
+    def destroy(self,request,pk):
+        """Delete method deletes the instance of 
+        Goal and instances that share the foriegn key"""
+        goal = Goal.objects.get(pk=pk)
+        goal.delete()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 class GoalSerializer(serializers.ModelSerializer):
     """Created the serializer for Goal class"""
