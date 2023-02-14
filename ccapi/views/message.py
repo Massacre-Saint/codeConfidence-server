@@ -9,7 +9,7 @@ class MessageView(ViewSet):
     """Class creates the Viewset for class Message"""
 
     def list(self, request):
-        """Method retrieves single message instance"""
+        """Method GETs single random message instance"""
         count = Message.objects.count()
         random_index = randrange(count)
         random_message = Message.objects.all()[random_index]
