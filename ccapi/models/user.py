@@ -9,6 +9,6 @@ class User(models.Model):
     bio = models.CharField(max_length=200)
     image_url = models.CharField(max_length=200)
     created_on = models.DateField(auto_now_add=True)
-    uid = models.CharField(max_length=25)
     is_admin = models.BooleanField(default = False)
     email = models.CharField(max_length=50)
+    uid = models.CharField(max_length=25)
