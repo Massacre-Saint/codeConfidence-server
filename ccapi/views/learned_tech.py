@@ -73,13 +73,15 @@ class LearnedTechView(ViewSet):
         l_tech.save()
 
         return Response(None, status=status.HTTP_204_NO_CONTENT)
-    
+
     def destroy(self, request, pk):
-        """Delete method deletes the instance of LearnedTech and instances that share the foreign key"""
+        """Delete method deletes the instance of 
+        LearnedTech and instances that share the foreign key"""
         learned_tech = LearnedTech.objects.get(pk=pk)
         learned_tech.delete()
-        
+
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 class LearnedTechSerializer(serializers.ModelSerializer):
     """Class creates the serializer for LearnedTech class"""
 
