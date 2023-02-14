@@ -2,7 +2,6 @@
 import uuid
 from django.db import models
 from .user import User
-from .tech import Tech
 from .learned_tech import LearnedTech
 
 class Goal(models.Model):
