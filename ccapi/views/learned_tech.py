@@ -79,6 +79,7 @@ class LearnedTechSerializer(serializers.ModelSerializer):
         depth = 1
         model = LearnedTech
         fields = (
+          'id'
           'uid',
           'tech',
           'last_updated'
