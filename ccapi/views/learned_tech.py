@@ -1,9 +1,9 @@
 """Module sets up Django Viewset for the class of LearnedTech"""
+from datetime import date
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from ccapi.models import Tech, User, LearnedTech
-from datetime import date
 
 class LearnedTechView(ViewSet):
     """Class creates viewset for LeanredTech"""
@@ -60,11 +60,13 @@ class LearnedTechView(ViewSet):
         Args:
             request: object
             pk: l_tech['id']
+        Body:
+            {'id', 'tech': tech['id']}
         """
         body = request.data
         l_tech = LearnedTech.objects.get(pk = pk)
         tech = Tech.objects.get(pk=body['tech'])
-
+        # UX might allow to change learned_tech in future, leaving functionality for now
         l_tech.tech = tech
         l_tech.last_updated = date.today()
         l_tech.save()
