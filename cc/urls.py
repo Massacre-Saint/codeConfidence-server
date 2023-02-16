@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from ccapi.views import register_user, check_user, MessageView, TechView, LearnedTechView, GoalView, TopicView
+from ccapi.views import register_user, check_user, MessageView, TechView, LearnedTechView, GoalView, TopicView, UserView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'messages', MessageView, 'messages')
@@ -25,6 +25,7 @@ router.register(r'l_tech', LearnedTechView, 'l_tech')
 router.register(r'tech', TechView, 'tech')
 router.register(r'goals', GoalView, 'goal')
 router.register(r'topics', TopicView, 'topic')
+router.register(r'users', UserView, 'users')
 urlpatterns = [
     path('register', register_user),
     path('checkuser', check_user),

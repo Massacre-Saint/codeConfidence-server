@@ -5,6 +5,6 @@ from .tech import Tech
 
 class LearnedTech(models.Model):
     """Create Class for LearnedTech Model"""
-    uid = models.ForeignKey(User, on_delete= models.RESTRICT)
+    uid = models.ForeignKey(User, on_delete= models.CASCADE)
     tech = models.ForeignKey(Tech, on_delete= models.RESTRICT)
     last_updated = models.DateTimeField(auto_now=True)
