@@ -9,6 +9,6 @@ class Goal(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=25)
     learned_tech = models.ForeignKey(LearnedTech, on_delete= models.CASCADE)
-    uid = models.ForeignKey(User, on_delete= models.RESTRICT)
+    uid = models.ForeignKey(User, on_delete= models.CASCADE)
     last_updated = models.DateTimeField(auto_now=True)
     progress = models.IntegerField(null=True)

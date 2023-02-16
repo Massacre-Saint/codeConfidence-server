@@ -72,7 +72,7 @@ class TopicView(ViewSet):
               last_updated = date.today(),
               completed = body['completed'],
             )
-            
+
             serializer = TopicSerializer(topic)
         else:
             topic = Topic.objects.create(
