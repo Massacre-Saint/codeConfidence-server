@@ -71,11 +71,14 @@ class GoalView(ViewSet):
         """Put methods updates instance Goal"""
         body=request.data
         goal=Goal.objects.get(pk=pk)
+        uid = request.META['HTTP_AUTHORIZATION']
+        user = User.objects.get(uid=uid)
         l_tech = LearnedTech.objects.get(pk=body['learned_tech'])
 
         goal.title = body['title']
         goal.last_updated = date.today()
         goal.learned_tech = l_tech
+        goal.uid = user
 
         #logic for progress field
         topics = Topic.objects.filter(goal = goal.pk).count()
