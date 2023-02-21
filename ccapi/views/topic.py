@@ -29,7 +29,7 @@ class TopicView(ViewSet):
         """
         uid = request.META['HTTP_AUTHORIZATION']
         topics = Topic.objects.all()
-        l_tech_param = request.query_params.get('learned_tech')
+        l_tech_param = request.query_params.get('l_tech')
         goal_param = request.query_params.get('goal')
 
         if l_tech_param  and goal_param is not None:
