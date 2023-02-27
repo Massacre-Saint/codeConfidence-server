@@ -82,6 +82,7 @@ class GoalView(ViewSet):
 
         #logic for progress field
         topics = Topic.objects.filter(goal = goal.pk).count()
+        print('this is on goal')
         if topics > 0:
             completed_topics = Topic.objects.filter(completed=True, goal = goal.pk).count()
             progress = completed_topics / topics * 100

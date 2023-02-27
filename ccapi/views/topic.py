@@ -32,11 +32,12 @@ class TopicView(ViewSet):
         l_tech_param = request.query_params.get('l_tech')
         goal_param = request.query_params.get('goal')
 
-        if l_tech_param  and goal_param is not None:
-            topics_by_goal = topics.filter(learned_tech = l_tech_param, uid__uid = uid)
-            ordered_topics = topics_by_goal.order_by('-last_updated', '-completed')
+        if l_tech_param is not None:
+            topics_by_tech = topics.filter(learned_tech = l_tech_param, uid__uid = uid)
+            ordered_topics = topics_by_tech.order_by('-last_updated', '-completed')
+            topics = ordered_topics
             serializer = TopicSerializer(ordered_topics, many=True)
-
+            
         else:
             try:
                 serializer = TopicSerializer(topics, many=True)
@@ -72,6 +73,7 @@ class TopicView(ViewSet):
               last_updated = date.today(),
               completed = body['completed'],
             )
+            goal.save()
 
             serializer = TopicSerializer(topic)
         else:
@@ -91,9 +93,10 @@ class TopicView(ViewSet):
         body = request.data
         l_tech = LearnedTech.objects.get(pk=body['learned_tech'])
         topic = Topic.objects.get(pk=pk)
-
+        prev_goal = topic.goal  # save previous goal instance
         if 'goal' in body:
             goal = Goal.objects.get(pk=body['goal'])
+            prev_goal = topic.goal  # update previous goal instance
             topic.title = body['title']
             topic.description = body['description']
             topic.learned_tech = l_tech
@@ -101,29 +104,55 @@ class TopicView(ViewSet):
             topic.last_updated = date.today()
             topic.completed = body['completed']
             topic.save()
+            if prev_goal is not None:
+                update_goal = Goal.objects.get(pk=prev_goal.pk)
+                topics = Topic.objects.filter(goal = update_goal.pk).count()
+                if topics > 0:
+                    completed_topics = Topic.objects.filter(completed=True, goal = update_goal.pk).count()
+                    progress = completed_topics / topics * 100
+                    update_goal.progress = progress
+                    print(topics)
+                else:
+                    update_goal.progress = None
+                update_goal.save(update_fields=['progress'])
+            goal.save()
         else:
             topic.title = body['title']
             topic.description = body['description']
             topic.learned_tech = l_tech
             topic.last_updated = date.today()
             topic.completed = body['completed']
+            topic.goal = None
             topic.save()
-
+            if prev_goal is not None:
+                update_goal = Goal.objects.get(pk=prev_goal.pk)
+                topics = Topic.objects.filter(goal = update_goal.pk).count()
+                if topics > 0:
+                    completed_topics = Topic.objects.filter(completed=True, goal = update_goal.pk).count()
+                    progress = completed_topics / topics * 100
+                    update_goal.progress = progress
+                    print(topics)
+                else:
+                    update_goal.progress = None
+                update_goal.save(update_fields=['progress'])
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self,request,pk):
         """Delete method deletes the instance of 
         Topic and instances that share the foriegn key"""
         topic = Topic.objects.get(pk=pk)
+        if 'goal' in request.data:
+            topic.delete()
+            goal = Goal.objects.get(pk=topic.goal_id)
+            goal.save()
         topic.delete()
-
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 class TopicSerializer(serializers.ModelSerializer):
     """Class creates the serializer for Topic class"""
 
     class Meta:
-        depth = 1
+        depth = 2
         model = Topic
         fields = (
           'id',
