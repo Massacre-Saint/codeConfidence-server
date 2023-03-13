@@ -5,3 +5,4 @@ from .learned_tech import LearnedTech
 from .goal import Goal
 from .message import Message
 from .topic import Topic
+from .bookmark import Bookmark

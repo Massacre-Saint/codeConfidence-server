@@ -131,7 +131,6 @@ class TopicView(ViewSet):
                     completed_topics = Topic.objects.filter(completed=True, goal = update_goal.pk).count()
                     progress = completed_topics / topics * 100
                     update_goal.progress = progress
-                    print(topics)
                 else:
                     update_goal.progress = None
                 update_goal.save(update_fields=['progress'])
@@ -139,12 +138,8 @@ class TopicView(ViewSet):
 
     def destroy(self,request,pk):
         """Delete method deletes the instance of 
-        Topic and instances that share the foriegn key"""
+        Topic and instances that share the foreign key"""
         topic = Topic.objects.get(pk=pk)
-        if 'goal' in request.data:
-            topic.delete()
-            goal = Goal.objects.get(pk=topic.goal_id)
-            goal.save()
         topic.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
