@@ -10,6 +10,7 @@ class BookmarkView(ViewSet):
     def list(self, request):
         """Get method get list of all Bookmark instances"""
         bookmarks = Bookmark.objects.all()
+        sorted_by_parent = sorted(bookmarks, key=lambda x: (x.id, x.parent_id,x.index))
         serializer = BookmarkSerilaizer(bookmarks, many=True)
 
         return Response(serializer.data)
@@ -101,3 +102,17 @@ def create_bookmark_from_json(json_data, parent_folder=None):
             create_bookmark_from_json(child_data)
 
     return bookmark
+
+def list_bookmarks(bookmarks):
+    bookmark_dict = {bookmark['id']: bookmark for bookmark in bookmarks}
+    root_bookmarks = []
+    for bookmark in bookmarks:
+        parent_id = bookmark['parent_id']
+        if parent_id is None:
+            root_bookmarks.append(bookmark)
+        else:
+            parent = bookmark_dict[parent_id]
+            if 'children' not in parent:
+                parent['children'] = []
+            parent['children'].append(bookmark)
+    return root_bookmarks
