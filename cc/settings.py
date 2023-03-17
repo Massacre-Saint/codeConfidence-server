@@ -1,5 +1,3 @@
-
-import os
 """
 Django settings for cc project.
 
@@ -22,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('MY_SECRET_KEY')
+SECRET_KEY = 'django-insecure-bz-43evi!y=lj2)egm2!s(@qcrwavug)suf@9@wo2rf&teyq+5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
