@@ -48,12 +48,12 @@ INSTALLED_APPS = [
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'https://code-confidence-client.herokuapp.com',
+    'https://code-confidence.netlify.app',
 )
 CORS_ALLOWED_ORIGINS = [
     "chrome-extension://phlojifbfdppndcccimlncfchcoopbch",
     "http://localhost:3000",
-    "https://code-confidence-client.herokuapp.com",
+    "https://code-confidence.netlify.app",
 ]
 
 MIDDLEWARE = [
