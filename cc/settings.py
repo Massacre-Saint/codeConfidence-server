@@ -55,6 +55,7 @@ CORS_ALLOWED_ORIGINS = [
     "chrome-extension://phlojifbfdppndcccimlncfchcoopbch",
     "http://localhost:3000",
     "https://code-confidence.herokuapp.com",
+    'https://code-confidence.netlify.app',
 ]
 
 MIDDLEWARE = [
