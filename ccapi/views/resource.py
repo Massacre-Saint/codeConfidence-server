@@ -54,7 +54,42 @@ class ResourceView(ViewSet):
 
         serializer = ResourceSerilaizer(resource)
         return  Response(serializer.data)
+    
+    def update(self, request, pk):
+        """Update method updates an instance and children data"""
+        resource = Resource.objects.get(pk=pk)
+        body = request.data
+        bookmarks = Bookmark.objects.all()
+        bookmark = Bookmark.objects.get(pk=body['bookmark'])
+        tech = LearnedTech.objects.get(pk=body['tech'])
         
+        resource.tech = tech
+        if 'assignedTo' in body and body['assignedTo'] is not None:
+            resource_id = body['assignedTo']
+            topics = Topic.objects.filter(id=resource_id)
+            goals = Goal.objects.filter(id=resource_id)
+            if topics.exists():
+                assigned_to = ContentType.objects.get_for_model(topics.first())
+                object_id = topics.first().id
+            elif goals.exists():
+                assigned_to = ContentType.objects.get_for_model(goals.first())
+                object_id = goals.first().id
+
+            resource.assigned_to = assigned_to
+            resource.object_id = object_id
+        else:
+            resource.assigned_to = None
+            resource.object_id = None
+
+        try:
+            resource = update_resource_children(resource, bookmarks, body)
+        except IntegrityError:
+            return Response({'error': 'Resource has no children'})
+
+        resource.save()
+        serializer = ResourceSerilaizer(resource)
+        return Response(serializer.data)
+
     def destroy(self, request, pk):
         """Delete method deletes the instance and children of pk"""
         resource = Resource.objects.get(pk=pk)
@@ -94,6 +129,51 @@ def create_resource_children(resource, bookmarks):
     if len(children) > 0:
         for child in children:
             child_resource = create_children_from_bookmark(resource,child)
-            child_resource.parent = resource
             child_resource.save()
             create_resource_children(child_resource, bookmarks)
+
+def update_children_from_bookmark(resource, bookmark):
+    book = Bookmark.objects.get(pk=bookmark.id)
+    lTech = LearnedTech.objects.get(pk=resource.tech_id)
+    resource, created = Resource.objects.get_or_create(
+        bookmark=book,
+        assigned_to=resource.assigned_to,
+        object_id=resource.object_id,
+        tech=lTech,
+    )
+    return resource
+
+def update_resource_children(resource, bookmarks, body):
+    children = bookmarks.filter(parent_id=resource.bookmark_id)
+    if len(children) > 0:
+        for child in children:
+            child_resource = Resource.objects.filter(bookmark=child).first()
+            if child_resource:
+                if 'tech' in body:
+                    child_resource.tech = LearnedTech.objects.get(pk=body['tech'])
+
+                if 'assignedTo' in body and body['assignedTo'] is not None:
+                    resource_id = body['assignedTo']
+                    topics = Topic.objects.filter(id=resource_id)
+                    goals = Goal.objects.filter(id=resource_id)
+                    if topics.exists():
+                        assigned_to = ContentType.objects.get_for_model(topics.first())
+                        object_id = topics.first().id
+                    elif goals.exists():
+                        assigned_to = ContentType.objects.get_for_model(goals.first())
+                        object_id = goals.first().id
+
+                    child_resource.assigned_to = assigned_to
+                    child_resource.object_id = object_id
+                else:
+                    child_resource.assigned_to = None
+                    child_resource.object_id = None
+
+                child_resource.save()
+                update_resource_children(child_resource, bookmarks, body)
+            else:
+                child_resource = update_children_from_bookmark(resource, child)
+                child_resource.save()
+                update_resource_children(child_resource, bookmarks, body)
+
+    return resource
