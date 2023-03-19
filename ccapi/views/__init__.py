@@ -6,3 +6,4 @@ from .goal import GoalView
 from .topic import TopicView
 from .user import UserView
 from .bookmark import BookmarkView
+from .resource import ResourceView
