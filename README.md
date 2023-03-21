@@ -56,6 +56,10 @@ Looking for Client Side?
 
 <p align="right"><a href="#readme-top">Back to Top</a></p>
 
+## Deployement
+
+![index](https://user-images.githubusercontent.com/79988192/226748628-fa854bd8-9f2c-4cbe-be53-9c7c2fe64952.png)
+
 ## Installations
 To run this locally you will need to have these installations complete:
 - python
@@ -69,7 +73,6 @@ To run this locally you will need to have these installations complete:
 
 Please follow instructions for downloading Python and packages.
 
-## Deployement
 ### Download Instructions
 #### Mac Users
 [Mac Installations](/mac_installations.md)
@@ -216,6 +219,7 @@ If you have any feedback, please reach out to us at fake@fake.com
 [erd]: https://github.com/Massacre-Saint/Code-Confidence/blob/main/public/erd.png
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/massacresaint
+[index]: https://code-confidence.netlify.app/
 [product-screenshot]: /public/images/home.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
