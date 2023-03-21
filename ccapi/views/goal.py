@@ -105,7 +105,7 @@ class GoalSerializer(serializers.ModelSerializer):
     """Created the serializer for Goal class"""
 
     class Meta:
-        depth = 1
+        depth = 2
         model = Goal
         fields =  (
           'id',
