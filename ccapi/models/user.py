@@ -11,8 +11,4 @@ class User(models.Model):
     created_on = models.DateField(auto_now_add=True)
     is_admin = models.BooleanField(default = False)
     email = models.CharField(max_length=50)
-<<<<<<< HEAD
-    uid = models.CharField(max_length=40)
-=======
     uid = models.CharField(max_length=50)
->>>>>>> main
