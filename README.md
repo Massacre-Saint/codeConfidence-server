@@ -58,7 +58,7 @@ Looking for Client Side?
 
 ## Deployement
 ![index](https://user-images.githubusercontent.com/79988192/226748628-fa854bd8-9f2c-4cbe-be53-9c7c2fe64952.png)
-<h3 align="center">Netlify Deployed Site</h3>
+<h3 align="center"><a href="https://code-confidence.netlify.app/"> <<Netlify Deployed Site>> </a></h3>
 
 
 ## Installations
