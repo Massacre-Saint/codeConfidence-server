@@ -104,7 +104,7 @@ class ResourceView(ViewSet):
 class ResourceSerilaizer(serializers.ModelSerializer):
     """Class creates the serializer for BookMark class"""
     class Meta:
-        depth = 1
+        depth = 2
         model = Resource
         fields = (
           'id',

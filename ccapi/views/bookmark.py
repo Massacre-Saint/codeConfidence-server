@@ -10,8 +10,8 @@ class BookmarkView(ViewSet):
     def list(self, request):
         """Get method get list of all Bookmark instances"""
         bookmarks = Bookmark.objects.all()
-        sorted_by_parent = sorted(bookmarks, key=lambda x: (x.id, x.parent_id,x.index))
-        serializer = BookmarkSerilaizer(bookmarks, many=True)
+        sorted_by_parent = sorted(bookmarks, key=lambda x: (x.parent_id))
+        serializer = BookmarkSerilaizer(sorted_by_parent, many=True)
 
         return Response(serializer.data)
 
