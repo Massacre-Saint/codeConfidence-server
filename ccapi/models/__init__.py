@@ -6,3 +6,4 @@ from .goal import Goal
 from .message import Message
 from .topic import Topic
 from .bookmark import Bookmark
+from .resource import Resource

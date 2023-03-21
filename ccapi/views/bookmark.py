@@ -2,7 +2,7 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from ccapi.models import Bookmark, User
+from ccapi.models import Bookmark, User, Resource
 from django.db import IntegrityError
 
 class BookmarkView(ViewSet):
@@ -10,8 +10,8 @@ class BookmarkView(ViewSet):
     def list(self, request):
         """Get method get list of all Bookmark instances"""
         bookmarks = Bookmark.objects.all()
-        sorted_by_parent = sorted(bookmarks, key=lambda x: (x.id, x.parent_id,x.index))
-        serializer = BookmarkSerilaizer(bookmarks, many=True)
+        sorted_by_parent = sorted(bookmarks, key=lambda x: (x.parent_id))
+        serializer = BookmarkSerilaizer(sorted_by_parent, many=True)
 
         return Response(serializer.data)
 
@@ -19,6 +19,9 @@ class BookmarkView(ViewSet):
         """Post method creates one or more bookmarks from JSON data"""
         body = request.data
         bookmarks = Bookmark.objects.all()
+        in_database = bookmarks.filter(id = body['parentId'])
+        if len(in_database) == 0 and body['title'] != 'Code Confidence Resources':
+            return Response({'error': 'Bookmark is not within target folder'}, status=status.HTTP_409_CONFLICT)
         try:
             if (body['title'] == 'Code Confidence Resources'):
                 create_bookmark_from_json(body)
@@ -51,8 +54,17 @@ class BookmarkView(ViewSet):
         """Delete method deletes the instance and children of pk"""
         bookmark = Bookmark.objects.get(pk=pk)
         bookmarks = Bookmark.objects.all()
+        resources = Resource.objects.all()
         if bookmark.title == 'Code Confidence Resources':
             bookmarks.delete()
+            resources.delete()
+        try:
+            for index in resources:
+                if bookmark.id == index.bookmark_id:
+                    index.delete()
+        except:
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
+
         try:
             for index in bookmarks:
                 if bookmark.id == index.parent_id:
