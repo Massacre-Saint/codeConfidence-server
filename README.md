@@ -18,7 +18,7 @@ Code Confidence is a project I designed for my final capstone at Nashville Softw
 </div>
 
 ## Code Confidence Server Side
-Looking for Server Side?
+Looking for Client Side?
  <br />
     <a href="https://github.com/Massacre-Saint/Code-Confidence"><strong>Explore the docs »</strong></a>
 
@@ -35,7 +35,7 @@ Looking for Server Side?
   <a href="#planning"><li>Planning</li></a>
   <a href="#feedback"><li>Feedback</li></a>
   <a href="#acknowledgements"><li>Acknowldegements</li></a>
-  <a href="tech-stack"><li>Tech Stack and Resources</li></a>
+  <a href="#tech-stack"><li>Tech Stack and Resources</li></a>
 </ul>
 
 ## Walkthrough
@@ -165,9 +165,11 @@ Coming very soon and currently in progress and testing.
 ## Planning
 
 ### ERD:
-### Wireframe:
+![ERD][erd]
+[Link here](https://lucid.app/lucidchart/8dc92dcc-6a11-42b1-ad2a-d5403e564605/edit?view_items=LJsu1U~DpU8p&invitationId=inv_7e7ea7ca-a54d-4030-bf69-1dd50f681db4)
 ### FlowChart:
-### Project Board:
+![Flowchart Screen Shot][product-screenshot]
+[Link here](https://lucid.app/lucidchart/9d7671f6-236c-4616-afe9-29d15c51381b/edit?viewport_loc=-300%2C-47%2C9599%2C3799%2C7ezayB~FQlW7&invitationId=inv_9e7879f3-abbc-4fdd-a8bf-b48fd0c5823a)
 
 <p align="right"><a href="#readme-top">Back to Top</a></p>
 
@@ -210,6 +212,8 @@ If you have any feedback, please reach out to us at fake@fake.com
 [issues-url]: https://github.com/Massacre-Saint/Dialing-In.v2/issues
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[product-screenshot]: https://github.com/Massacre-Saint/Code-Confidence/blob/main/public/flowchart.png
+[erd]: https://github.com/Massacre-Saint/Code-Confidence/blob/main/public/erd.png
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/massacresaint
 [product-screenshot]: /public/images/home.png
