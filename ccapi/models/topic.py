@@ -8,7 +8,7 @@ from .goal import Goal
 class Topic(models.Model):
     """Create Class for Topic Model"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=25)
+    title = models.CharField(max_length=75)
     description = models.CharField(max_length=150)
     uid = models.ForeignKey(User, on_delete= models.CASCADE)
     learned_tech = models.ForeignKey(LearnedTech, on_delete= models.CASCADE)

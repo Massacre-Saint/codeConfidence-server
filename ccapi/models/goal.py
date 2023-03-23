@@ -7,7 +7,7 @@ from .learned_tech import LearnedTech
 class Goal(models.Model):
     """Create Class for Goal Model"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=25)
+    title = models.CharField(max_length=75)
     learned_tech = models.ForeignKey(LearnedTech, on_delete= models.CASCADE)
     uid = models.ForeignKey(User, on_delete= models.CASCADE)
     last_updated = models.DateTimeField(auto_now=True)
