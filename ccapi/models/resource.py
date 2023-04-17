@@ -11,4 +11,4 @@ class Resource(models.Model):
     assigned_to = models.ForeignKey(ContentType, on_delete= models.PROTECT, null=True)
     object_id = models.CharField(max_length=50, null=True)
     content_object = GenericForeignKey('assigned_to', 'object_id')
-    tech = models.ForeignKey(LearnedTech, on_delete= models.PROTECT)
+    learned_tech = models.ForeignKey(LearnedTech, on_delete= models.PROTECT)
