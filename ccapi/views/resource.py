@@ -1,4 +1,5 @@
 """Module sets up Djnago Viewset for the class of Resource"""
+from datetime import date
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -35,9 +36,11 @@ class ResourceView(ViewSet):
 
           resource = Resource.objects.create(
             bookmark = bookmark,
+            title = body['title'],
             assigned_to = assigned_to,
             object_id = object_id,
             learned_tech = learned_tech,
+            last_updated = date.today(),
           )
         else:
           resource = Resource.objects.create(
@@ -64,6 +67,9 @@ class ResourceView(ViewSet):
         tech = LearnedTech.objects.get(pk=body['tech'])
         
         resource.tech = tech
+        resource.title = body['title']
+        resource.last_updated = date.today()
+
         if 'assignedTo' in body and body['assignedTo'] is not None:
             resource_id = body['assignedTo']
             topics = Topic.objects.filter(id=resource_id)
@@ -109,8 +115,10 @@ class ResourceSerilaizer(serializers.ModelSerializer):
         fields = (
           'id',
           'bookmark',
+          'title',
           'object_id',
           'learned_tech',
+          'last_updated'
         )
 
 def create_children_from_bookmark(resource,bookmark):

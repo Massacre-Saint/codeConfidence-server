@@ -37,7 +37,7 @@ class TopicView(ViewSet):
           goal= Goal.objects.get(pk= goal_id)
           topics_by_tech = topics.filter(goal=goal)
         if last_updated is not None:
-            topics_by_tech = topics_by_tech.order_by('last_updated')
+            topics_by_tech = topics_by_tech.order_by('-last_updated')
         if a_z is not None:
             topics_by_tech = topics_by_tech.order_by('title')
         if z_a is not None:
