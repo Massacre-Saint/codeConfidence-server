@@ -28,24 +28,19 @@ class GoalView(ViewSet):
         last_updated = request.query_params.get('last_updated')
         a_z = request.query_params.get('alpha')
         z_a = request.query_params.get('zeta')
-        open = request.query_params.get('open')
-        closed = request.query_params.get('closed')
         goals_by_tech = goals.filter(learned_tech = l_tech, uid__uid = uid)
         progress = request.query_params.get('progress')
         if progress is not None:
-            print(progress)
-            goals_by_tech = goals_by_tech.filter(progress)
+            if progress == '25':
+                goals_by_tech = goals_by_tech.order_by('progress')
+            if progress == '50':
+                goals_by_tech = goals_by_tech.order_by('-progress')
         if last_updated is not None:
-            goals_by_tech = goals_by_tech.order_by('last_updated')
+            goals_by_tech = goals_by_tech.order_by('-last_updated')
         if a_z is not None:
             goals_by_tech = goals_by_tech.order_by('title')
         if z_a is not None:
             goals_by_tech = goals_by_tech.order_by('-title')
-        # if open is not None:
-        #     goals_by_tech = goals_by_tech.filter(completed = False)
-        # if closed is not None:
-        #     goals_by_tech = goals_by_tech.filter(completed = True)
-
         serializer = GoalSerializer(goals_by_tech, many=True)
         return Response(serializer.data)
     
@@ -56,8 +51,6 @@ class GoalView(ViewSet):
         last_updated = request.query_params.get('last_updated')
         a_z = request.query_params.get('alpha')
         z_a = request.query_params.get('zeta')
-        open = request.query_params.get('open')
-        closed = request.query_params.get('closed')
         goals_by_user = topics.filter(uid__uid = uid)
         progress = request.query_params.get('progress')
         
@@ -72,10 +65,6 @@ class GoalView(ViewSet):
             goals_by_user = goals_by_user.order_by('title')
         if z_a is not None:
             goals_by_user = goals_by_user.order_by('-title')
-        # if open is not None:
-        #     goals_by_user = goals_by_user.filter(completed = False)
-        # if closed is not None:
-        #     goals_by_user = goals_by_user.filter(completed = True)
 
         serializer = GoalSerializer(goals_by_user, many=True)
         return Response(serializer.data)
