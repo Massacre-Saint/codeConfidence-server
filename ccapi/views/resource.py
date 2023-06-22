@@ -1,4 +1,5 @@
 """Module sets up Djnago Viewset for the class of Resource"""
+from datetime import date
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -20,10 +21,10 @@ class ResourceView(ViewSet):
         body = request.data
         bookmark = Bookmark.objects.get(pk=body['bookmark'])
         bookmarks = Bookmark.objects.all()
-        tech = LearnedTech.objects.get(pk=body['tech'])
+        learned_tech = LearnedTech.objects.get(pk=body['learned_tech'])
         
-        if 'assignedTo' in body and body['assignedTo'] is not None:
-          resource_id = body['assignedTo']
+        if 'assigned_to' in body:
+          resource_id = body['assigned_to']
           topics = Topic.objects.filter(id=resource_id)
           goals = Goal.objects.filter(id=resource_id)
           if topics.exists():
@@ -35,15 +36,17 @@ class ResourceView(ViewSet):
 
           resource = Resource.objects.create(
             bookmark = bookmark,
+            title = body['title'],
             assigned_to = assigned_to,
             object_id = object_id,
-            tech = tech,
+            learned_tech = learned_tech,
+            last_updated = date.today(),
           )
         else:
           resource = Resource.objects.create(
             bookmark = bookmark,
             assigned_to = None,
-            tech = tech,
+            learned_tech = learned_tech,
           )
         try:
           resource = create_resource_children(resource, bookmarks)
@@ -64,6 +67,9 @@ class ResourceView(ViewSet):
         tech = LearnedTech.objects.get(pk=body['tech'])
         
         resource.tech = tech
+        resource.title = body['title']
+        resource.last_updated = date.today()
+
         if 'assignedTo' in body and body['assignedTo'] is not None:
             resource_id = body['assignedTo']
             topics = Topic.objects.filter(id=resource_id)
@@ -109,18 +115,20 @@ class ResourceSerilaizer(serializers.ModelSerializer):
         fields = (
           'id',
           'bookmark',
+          'title',
           'object_id',
-          'tech',
+          'learned_tech',
+          'last_updated'
         )
 
 def create_children_from_bookmark(resource,bookmark):
     book = Bookmark.objects.get(pk=bookmark.id)
-    lTech = LearnedTech.objects.get(pk=resource.tech_id)
+    lTech = LearnedTech.objects.get(pk=resource.learned_tech_id)
     resource, created = Resource.objects.get_or_create(
         bookmark=book,
         assigned_to=resource.assigned_to,
         object_id = resource.object_id,
-        tech=lTech,
+        learned_tech=lTech,
     )
     return resource
 

@@ -1,6 +1,7 @@
 """Module sets up Django Viewset for the class of Topic"""
 from datetime import date
 from rest_framework.viewsets import ViewSet
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from ccapi.models import Goal, User, LearnedTech, Topic
@@ -19,6 +20,64 @@ class TopicView(ViewSet):
         except Topic.DoesNotExist as ex:
 
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=False)
+    def filter(self,request):
+        topics = Topic.objects.all()
+        uid = request.META['HTTP_AUTHORIZATION']
+        l_tech = request.query_params.get('l_tech')
+        goal_id = request.query_params.get('goalId')
+        last_updated = request.query_params.get('last_updated')
+        a_z = request.query_params.get('alpha')
+        z_a = request.query_params.get('zeta')
+        open = request.query_params.get('open')
+        closed = request.query_params.get('closed')
+        topics_by_tech = topics.filter(learned_tech = l_tech, uid__uid = uid)
+        if goal_id is not None:
+          goal= Goal.objects.get(pk= goal_id)
+          topics_by_tech = topics.filter(goal=goal)
+        if last_updated is not None:
+            topics_by_tech = topics_by_tech.order_by('-last_updated')
+        if a_z is not None:
+            topics_by_tech = topics_by_tech.order_by('title')
+        if z_a is not None:
+            topics_by_tech = topics_by_tech.order_by('-title')
+        if open is not None:
+            topics_by_tech = topics_by_tech.filter(completed = False)
+        if closed is not None:
+            topics_by_tech = topics_by_tech.filter(completed = True)
+
+        serializer = TopicSerializer(topics_by_tech, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False)
+    def all_filter(self,request):
+        topics = Topic.objects.all()
+        uid = request.META['HTTP_AUTHORIZATION']
+        goal_id = request.query_params.get('goalId')
+        last_updated = request.query_params.get('last_updated')
+        a_z = request.query_params.get('alpha')
+        z_a = request.query_params.get('zeta')
+        open = request.query_params.get('open')
+        closed = request.query_params.get('closed')
+        topics_by_user = topics.filter(uid__uid = uid)
+
+        if goal_id is not None:
+          goal= Goal.objects.get(pk= goal_id)
+          topics_by_user = topics.filter(goal=goal)
+        if last_updated is not None:
+            topics_by_user = topics_by_user.order_by('last_updated')
+        if a_z is not None:
+            topics_by_user = topics_by_user.order_by('title')
+        if z_a is not None:
+            topics_by_user = topics_by_user.order_by('-title')
+        if open is not None:
+            topics_by_user = topics_by_user.filter(completed = False)
+        if closed is not None:
+            topics_by_user = topics_by_user.filter(completed = True)
+
+        serializer = TopicSerializer(topics_by_user, many=True)
+        return Response(serializer.data)
 
     def list(self, request):
         """Get method lists all Topic instances

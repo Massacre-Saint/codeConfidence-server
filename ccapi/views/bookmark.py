@@ -19,19 +19,18 @@ class BookmarkView(ViewSet):
         """Post method creates one or more bookmarks from JSON data"""
         body = request.data
         bookmarks = Bookmark.objects.all()
-        in_database = bookmarks.filter(id = body['parentId'])
-        if len(in_database) == 0 and body['title'] != 'Code Confidence Resources':
-            return Response({'error': 'Bookmark is not within target folder'}, status=status.HTTP_409_CONFLICT)
+
         try:
             if (body['title'] == 'Code Confidence Resources'):
-                create_bookmark_from_json(body)
-                parent_bookmarks = bookmarks.filter(id=body['parentId'])
-                if len(parent_bookmarks) == 0:
-                    return Response({'error': 'Parent bookmark does not exist'}, status=status.HTTP_404_NOT_FOUND)
-            bookmark = create_bookmark_from_json(body)
-            serializer = BookmarkSerilaizer(bookmark)
+                create_bookmark_children(body)
+            parent_bookmarks = bookmarks.filter(id=body['parentId'])
+            if len(parent_bookmarks) == 0 and body['title'] != 'Code Confidence Resources':
+                return Response({'error': 'Parent bookmark does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                bookmark = create_bookmark_children(body)
+                serializer = BookmarkSerilaizer(bookmark)
 
-            return Response(serializer.data)
+                return Response(serializer.data)
 
         except IntegrityError:
             # If a UNIQUE constraint error occurs, return a 409 Conflict response
@@ -46,33 +45,42 @@ class BookmarkView(ViewSet):
         bookmark.title = body['title']
         if 'url' in body:
             bookmark.url = body['url']
-        bookmark.save()
+        update_bookmark_children(body, pk)
         
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk):
         """Delete method deletes the instance and children of pk"""
         bookmark = Bookmark.objects.get(pk=pk)
+        body= request.data
         bookmarks = Bookmark.objects.all()
         resources = Resource.objects.all()
-        if bookmark.title == 'Code Confidence Resources':
-            bookmarks.delete()
-            resources.delete()
+        try:
+            if bookmark.title == 'Code Confidence Resources':
+                bookmarks.delete()
+                resources.delete()
+        except:
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
+        
         try:
             for index in resources:
                 if bookmark.id == index.bookmark_id:
                     index.delete()
         except:
-            return Response(None, status=status.HTTP_204_NO_CONTENT)
-
+            return Response({'error': 'Resource does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        
         try:
-            for index in bookmarks:
-                if bookmark.id == index.parent_id:
-                    index.delete()
+            children = Bookmark.objects.filter(parent_id = bookmark.id)
+            if children is not None:
+                bookmark.delete()
+                delete_bookmark_children(children,bookmarks)
+            else:
+                bookmark.delete()
+                pass
+
         except:
             return Response(None, status=status.HTTP_204_NO_CONTENT)
-        bookmark.delete()
-        
+                    
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 class BookmarkSerilaizer(serializers.ModelSerializer):
@@ -88,7 +96,7 @@ class BookmarkSerilaizer(serializers.ModelSerializer):
           'url',
         )
 
-def create_bookmark_from_json(json_data, parent_folder=None):
+def create_bookmark_children(json_data):
     # create or retrieve the parent bookmark
     bookmark, created = Bookmark.objects.get_or_create(
         id=int(json_data['id']),
@@ -100,31 +108,44 @@ def create_bookmark_from_json(json_data, parent_folder=None):
         },
     )
 
-    if not created:
-        # if the bookmark already exists, update the non-unique fields
-        bookmark.index = json_data['index']
-        bookmark.parent_id = int(json_data['parentId'])
-        bookmark.title = json_data['title']
-        bookmark.url = json_data.get('url', None)
-        bookmark.save()
-
     # recursively create child bookmarks
     if 'children' in json_data:
         for child_data in json_data['children']:
-            create_bookmark_from_json(child_data)
+            create_bookmark_children(child_data)
 
     return bookmark
+    
+def update_bookmark_children(body, pk):
+    #fetch and update bookmark
+    bookmark, created = Bookmark.objects.update_or_create(
+        id= int(pk),
+        defaults={
+            'index': body['index'],
+            'parent_id': int(body['parent_id']),
+            'title': body['title'],
+            'url': body.get('url', None),
+        },
+    )
+    
+    if 'children' in body:
+        for child_data in body['children']:
+            update_bookmark_children(child_data)
 
-def list_bookmarks(bookmarks):
-    bookmark_dict = {bookmark['id']: bookmark for bookmark in bookmarks}
-    root_bookmarks = []
-    for bookmark in bookmarks:
-        parent_id = bookmark['parent_id']
-        if parent_id is None:
-            root_bookmarks.append(bookmark)
-        else:
-            parent = bookmark_dict[parent_id]
-            if 'children' not in parent:
-                parent['children'] = []
-            parent['children'].append(bookmark)
-    return root_bookmarks
+    return bookmark
+ 
+        
+def delete_bookmark_children(parents,bookmarks):
+    deleted_children = []
+    for bookmark in parents:
+        try:
+            children = bookmarks.filter(parent_id = bookmark.id)
+            deleted_children.append(children)
+            if children is not None:
+                delete_bookmark_children(children, bookmarks)
+            else:
+                pass
+        except:
+            pass
+    parents.delete()
+    deleted_children.delete()
+    return Response("Children deleted successfully")
