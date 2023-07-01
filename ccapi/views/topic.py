@@ -88,6 +88,7 @@ class TopicView(ViewSet):
         """
         uid = request.META['HTTP_AUTHORIZATION']
         topics = Topic.objects.all()
+        user_topics = topics.filter(uid__uid = uid)
         l_tech_param = request.query_params.get('l_tech')
         goal_param = request.query_params.get('goal')
 
@@ -99,7 +100,7 @@ class TopicView(ViewSet):
             
         else:
             try:
-                serializer = TopicSerializer(topics, many=True)
+                serializer = TopicSerializer(user_topics, many=True)
 
                 return Response(serializer.data)
 
