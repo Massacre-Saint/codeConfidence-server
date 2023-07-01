@@ -78,6 +78,7 @@ class GoalView(ViewSet):
         """
         uid = request.META['HTTP_AUTHORIZATION']
         goals = Goal.objects.all()
+        user_goals = goals.filter(uid__uid = uid)
         l_tech_param = request.query_params.get('l_tech')
 
         if l_tech_param is not None:
@@ -87,7 +88,7 @@ class GoalView(ViewSet):
 
         else:
             try:
-                serializer = GoalSerializer(goals, many=True)
+                serializer = GoalSerializer(user_goals, many=True)
 
                 return Response(serializer.data)
 
