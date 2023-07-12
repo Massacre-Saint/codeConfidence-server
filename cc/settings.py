@@ -54,7 +54,7 @@ CORS_ORIGIN_WHITELIST = (
 CORS_ALLOWED_ORIGINS = [
     "chrome-extension://phlojifbfdppndcccimlncfchcoopbch",
     "http://localhost:3000",
-    "https://code-confidence-server.herokuapp.com/",
+    "https://code-confidence-server.herokuapp.com",
     'https://code-confidence.netlify.app',
 ]
 
